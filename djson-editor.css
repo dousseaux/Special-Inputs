@@ -1,0 +1,28 @@
+div.djson-editor {
+    min-height: 200px;
+    min-width: 400px;
+    padding: 10px 15px;
+    border-radius: 10px;
+    display: inline-block;
+    font-family: monospace;
+    color: #fff;
+    background: #3c3c3c;
+}
+
+div.djson-editor span.djson-key {
+    color: yellow;
+}
+
+div.djson-editor span.djson-prop {
+    color: rgb(64, 203, 255);
+}
+div.djson-editor span.djson-colon {
+    color: #c858a8;
+}
+div.djson-editor span.djson-bracket {
+    color: #ff5858;
+}
+
+span.djson-array{
+    color: rgb(98, 180, 77);
+}

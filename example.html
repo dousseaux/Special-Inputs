@@ -1,0 +1,20 @@
+<head>
+    <link rel="stylesheet" href="djson-editor.css">
+</head>
+
+<body>
+    <textarea id="my_input" rows="10" cols="80"></textarea>
+    <br><br>
+    <div id="target" class="djson-editor">"menu": {<br>&nbsp;&nbsp;&nbsp;&nbsp;"id": "file",<br>&nbsp;&nbsp;&nbsp;&nbsp;"value": "File",<br>&nbsp;&nbsp;&nbsp;&nbsp;"popup": {<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"menuitem": [<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{"value":"New", "onclick": "CreateNewDoc()"},<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{"value": "Open", "onclick": "OpenDoc()"},<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{"value": "Close","onclick": "CloseDoc()"}<br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;]<br> &nbsp;&nbsp;&nbsp;&nbsp;}<br> }<br></div>
+</body>
+
+<script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+<script src="rangy-core.js" charset="utf-8"></script>
+<script src="rangy-selectionsaverestore.js" charset="utf-8"></script>
+<script src="djson-editor.js" charset="utf-8"></script>
+
+<script type="text/javascript">
+    $(function() {
+        json_editor($('#my_input'), $('#target'));
+    });
+</script>
