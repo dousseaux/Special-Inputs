@@ -1,0 +1,8 @@
+/**
+ * Author: Pedro Dousseau
+ * https://github.com/dousseaux/special_inputs
+ * 18 July 2017
+ * Version 0.1.4
+ */
+ 
+div.djson-editor{position:relative;min-height:20px;min-width:50px;padding:0;display:inline-block;color:#fff;background:#3c3c3c;z-index:999;transition:all .2s}div.djson-editor.full-screen{display:inline-block !important;top:0 !important;left:0 !important;height:100% !important;width:100% !important;position:fixed !important;border-radius:0 !important}div.djson-editor div.djson-menu{position:absolute;top:10px;right:15px}div.djson-editor div.djson-menu i{cursor:pointer}div.djson-editor div.djson-editor-text{padding:10px 15px;display:inline-block;height:100%;width:100%;text-align:left !important;font-family:Consolas,Lucida Console,monospace !important;overflow:auto;font-size:12px}div.djson-editor div.djson-editor-text:focus{outline:0 solid transparent}div.djson-editor span.djson-key{color:#ffbd2a}div.djson-editor span.djson-prop{color:#40cbff}div.djson-editor span.djson-colon{color:#c858a8}div.djson-editor span.djson-bracket{color:#58ffd7}div.djson-editor span.djson-brace{color:#ff5858}span.djson-array{color:#62b44d}

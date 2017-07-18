@@ -7,7 +7,7 @@
  * Version: 0.1.0
  * Date: 18 May 2017
  */
- 
+
 div.djson-editor {
     position: relative;
     min-height: 20px;
@@ -57,19 +57,21 @@ div.djson-editor div.djson-editor-text:focus{
 }
 
 div.djson-editor span.djson-key {
-    color: yellow;
+    color: #ffbd2a;
 }
 
 div.djson-editor span.djson-prop {
-    color: rgb(64, 203, 255);
+    color: #40cbff;
 }
 div.djson-editor span.djson-colon {
     color: #c858a8;
 }
 div.djson-editor span.djson-bracket {
+    color: #58ffd7;
+}
+div.djson-editor span.djson-brace {
     color: #ff5858;
 }
-
 span.djson-array{
-    color: rgb(98, 180, 77);
+    color: #62b44d;
 }

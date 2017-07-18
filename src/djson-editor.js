@@ -5,7 +5,7 @@
  * Copyright 2017, Pedro Dousseau
  * Licensed under the MIT license.
  * Version: 0.1.0
- * Date: 18 May 2017
+ * Date: 18 July 2017"
  */
 
 var DJSONeditor = function(textarea, div) {
@@ -20,11 +20,15 @@ var DJSONeditor = function(textarea, div) {
     $(menu).html('<i class="fa fa-expand djson-expand"></i>')
 
     // ########### PRIVATE FUNCTIONS ############
-    var filterText =  function(){
+    var filterText = function(restores_sel) {
+        restores_sel = (typeof restores_sel !== 'undefined') ?  restores_sel : 1;
         // Save position and replace rangy element with a code
-        var savedSel = rangy.saveSelection();
-        var rangyposition = $('.rangySelectionBoundary').prop('outerHTML');
-        $('.rangySelectionBoundary').replaceWith('|rangy|')
+        var savedSel = null
+        if (restores_sel) {
+            savedSel = rangy.saveSelection();
+            var rangyposition = $('.rangySelectionBoundary').prop('outerHTML');
+            $('.rangySelectionBoundary').replaceWith('|rangy|')
+        }
         // Replace line breaks with a code
         $(target_div).html($(target_div).html().replace(/<br>/g, "|br|"));
         // Get text without html elements
@@ -46,6 +50,9 @@ var DJSONeditor = function(textarea, div) {
             return '<span class="djson-colon">' + x + "</span>"
         });
         str = str.replace(/[\{\}]/gi, function key_subs(x) {
+            return '<span class="djson-brace">' + x + "</span>"
+        });
+        str = str.replace(/[\[\]]/gi, function key_subs(x) {
             return '<span class="djson-bracket">' + x + "</span>"
         });
         // #### END OF FILTERS ####window.clipboardData.getData("Text")
@@ -53,7 +60,10 @@ var DJSONeditor = function(textarea, div) {
         str = str.replace(/\|br\|/g, "<br>")
 
         // Decode rangy position to html element
-        str = str.replace(/\|rangy\|/g, rangyposition);
+        if (restores_sel) {
+            str = str.replace(/\|rangy\|/g, rangyposition);
+        }
+
         // Write html back to div
         $(target_div).html(str)
 
@@ -65,17 +75,19 @@ var DJSONeditor = function(textarea, div) {
         $(textarea).text(str);
 
         // Restore caret position using rangy element
-        rangy.restoreSelection(savedSel);
+        if (restores_sel) {
+            rangy.restoreSelection(savedSel);
+        }
     }
-    var filterClipBoard = function(event){
+    var filterClipBoard = function(event) {
         // Save div current selection
         var savedSel = rangy.saveSelection();
         // Get text from clipboard
         var text = null;
         if (window.clipboardData)
-          text = window.clipboardData.getData("Text");
+            text = window.clipboardData.getData("Text");
         else if (event.originalEvent && event.originalEvent.clipboardData)
-          text = event.originalEvent.clipboardData.getData("Text");
+            text = event.originalEvent.clipboardData.getData("Text");
         // Edit text to be pasted
         text = text.replace(/\n/g, "<br>");
         text = text.replace(/\t/g, "&nbsp&nbsp&nbsp&nbsp");
@@ -91,21 +103,21 @@ var DJSONeditor = function(textarea, div) {
         // Filter text after being pasted
         setTimeout(filterText, 100);
     }
-    var expand = function(){
-        if($(div).attr('full-screen') === "true"){
+    var expand = function() {
+        if ($(div).attr('full-screen') === "true") {
             $(div).attr('full-screen', "false")
             $(div).removeClass("full-screen");
             $(menu).find('.djson-expand').removeClass('fa-compress');
             $(menu).find('.djson-expand').addClass('fa-expand');
-        }else{
+        } else {
             $(div).attr('full-screen', "true")
             $(div).addClass("full-screen");
             $(menu).find('.djson-expand').removeClass('fa-expand');
             $(menu).find('.djson-expand').addClass('fa-compress');
         }
     }
-    var addTab = function(event){
-        if(event.keyCode === 9) { // tab was pressed
+    var addTab = function(event) {
+        if (event.keyCode === 9) { // tab was pressed
             // Save position and replace rangy element with a code and add tab spaces
             var savedSel = rangy.saveSelection();
             var rangyposition = $('.rangySelectionBoundary').prop('outerHTML');
@@ -124,12 +136,12 @@ var DJSONeditor = function(textarea, div) {
     }
 
     // ########### PUBLIC FUNCTIONS ############
-    this.setText = function(text){
+    this.setText = function(text) {
         text = text.replace(/\n/g, "<br>");
         text = text.replace(/\t/g, "&nbsp&nbsp&nbsp&nbsp");
         text = text.replace(/\s/g, "&nbsp");
         $(target_div).html(text);
-        filterText();
+        filterText(false);
     };
 
     // ############ SET EVENTS ############
