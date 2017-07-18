@@ -1,20 +1,104 @@
 <head>
-    <link rel="stylesheet" href="djson-editor.css">
+    <!-- JQUERY CDN -->
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+
+    <!-- FONTS AWESOME CDN -->
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+
+    <!-- BOOTSTRAP CDN -->
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+    <!-- RANGY FILES -->
+    <script src="src/rangy-core.js" charset="utf-8"></script>
+    <script src="src/rangy-selectionsaverestore.js" charset="utf-8"></script>
+
+    <!-- DJSON EDITOR FILES -->
+    <link rel="stylesheet" href="src/djson-editor.css">
+    <script src="src/djson-editor.js" charset="utf-8"></script>
 </head>
 
 <body>
-    <textarea id="my_input" rows="10" cols="80"></textarea>
-    <br><br>
-    <div id="target" class="djson-editor">"menu": {<br>&nbsp;&nbsp;&nbsp;&nbsp;"id": "file",<br>&nbsp;&nbsp;&nbsp;&nbsp;"value": "File",<br>&nbsp;&nbsp;&nbsp;&nbsp;"popup": {<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"menuitem": [<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{"value":"New", "onclick": "CreateNewDoc()"},<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{"value": "Open", "onclick": "OpenDoc()"},<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{"value": "Close","onclick": "CloseDoc()"}<br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;]<br> &nbsp;&nbsp;&nbsp;&nbsp;}<br> }<br></div>
+    <div class="container">
+        <br>
+        <h1>Json Editor</h1>
+        <br>
+
+        <!-- CODE DEMO -->
+        <div class="row">
+            <div class="col-md-12">
+                <pre style="margin: 0;"><code>
+    ...
+    &lt;div id="my-editor" style="width: 100%; height: 300px"&gt;&lt;/div&gt;
+    ...
+    &lt;textarea id="some-text-area" style="width: 100%; height: 300px"&gt;...Some pre-defined JSON...&lt;/textarea&gt;
+    ...
+    $(function() {
+        var json_editor = new DJSONeditor($('#some-text-area'), $('#my-editor'));
+    });
+    ...
+                </code></pre>
+            </div>
+        </div>
+        <!-- END OF CODE DEMO -->
+
+        <br>
+
+        <!-- EXAMPLE 1 ROW -->
+        <div class="row">
+            <div class="col-md-6">
+                <div id="my-editor" style="width: 100%; height: 300px"></div>
+            </div>
+            <div class="col-md-6">
+                <textarea id="some-text-area" style="width: 100%; height: 300px">"menu": {<br>&nbsp;&nbsp;&nbsp;&nbsp;"id": "file",<br>&nbsp;&nbsp;&nbsp;&nbsp;"value": "File",<br>&nbsp;&nbsp;&nbsp;&nbsp;"popup": {<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"menuitem": [<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{"value":"New", "onclick": "CreateNewDoc()"},<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{"value": "Open", "onclick": "OpenDoc()"},<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{"value": "Close","onclick": "CloseDoc()"}<br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;]<br> &nbsp;&nbsp;&nbsp;&nbsp;}<br> }<br></textarea>
+            </div>
+        </div>
+        <!-- END OF EXAMPLE 1 ROW -->
+
+        <br>
+
+        <!-- EXAMPLE 2 ROW -->
+        <div class="row">
+            <div class="col-md-6">
+                <pre><code>
+...
+&lt;button id="some-button""&gt;UPDATE EDITOR&lt;/div&gt;
+...
+...
+$("#some-button").click(function(event) {
+    json_editor.setText('{\n\t"msg": "You updated me!",\n\t"text": ["thank","you"]\n}');
+});
+...
+                </code></pre>
+            </div>
+            <div class="col-md-6 text-center">
+                <br>
+                <br>
+                <br>
+                <br>
+                <br>
+                <button id="some-button" class="btn btn-default">UPDATE EDITOR</button>
+            </div>
+        </div>
+        <!-- END OF EXAMPLE 2 ROW -->
+    </div>
+
+    <br>
+    <br>
+
 </body>
 
-<script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
-<script src="rangy-core.js" charset="utf-8"></script>
-<script src="rangy-selectionsaverestore.js" charset="utf-8"></script>
-<script src="djson-editor.js" charset="utf-8"></script>
+
 
 <script type="text/javascript">
     $(function() {
-        json_editor($('#my_input'), $('#target'));
+        var json_editor = new DJSONeditor($('#some-text-area'), $('#my-editor'));
+        $("#some-button").click(function(event) {
+            json_editor.setText('{\n\t"msg": "You updated me!",\n\t"text": ["thank","you"]\n}');
+        });
     });
 </script>

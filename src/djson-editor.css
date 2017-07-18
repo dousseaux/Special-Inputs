@@ -1,0 +1,75 @@
+/**
+ * DJSON Editor, a cross-browser JSON editor
+ * https://github.com/dousseaux/special_inputs
+ *
+ * Copyright 2017, Pedro Dousseau
+ * Licensed under the MIT license.
+ * Version: 0.1.0
+ * Date: 18 May 2017
+ */
+ 
+div.djson-editor {
+    position: relative;
+    min-height: 20px;
+    min-width: 50px;
+    padding: 0;
+    /*border-radius: 10px;*/
+    display: inline-block;
+    color: #fff;
+    background: #3c3c3c;
+    z-index: 999;
+    transition: all 0.2s;
+}
+
+div.djson-editor.full-screen{
+    display: inline-block !important;
+    top:0 !important;
+    left: 0 !important;
+    height: 100% !important;
+    width: 100% !important;
+    position: fixed !important;
+    border-radius: 0 !important;
+}
+
+div.djson-editor div.djson-menu{
+    position: absolute;
+    top: 10px;
+    right: 15px;
+}
+
+div.djson-editor div.djson-menu i{
+    cursor: pointer;
+}
+
+div.djson-editor div.djson-editor-text{
+    padding: 10px 15px;
+    display: inline-block;
+    height: 100%;
+    width: 100%;
+    text-align: left !important;
+    font-family: Consolas, Lucida Console, monospace !important;
+    overflow: auto;
+    font-size: 12px;
+}
+
+div.djson-editor div.djson-editor-text:focus{
+     outline: 0px solid transparent;
+}
+
+div.djson-editor span.djson-key {
+    color: yellow;
+}
+
+div.djson-editor span.djson-prop {
+    color: rgb(64, 203, 255);
+}
+div.djson-editor span.djson-colon {
+    color: #c858a8;
+}
+div.djson-editor span.djson-bracket {
+    color: #ff5858;
+}
+
+span.djson-array{
+    color: rgb(98, 180, 77);
+}

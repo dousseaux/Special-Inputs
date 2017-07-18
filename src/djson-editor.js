@@ -1,4 +1,25 @@
-function json_editor(textarea, target_div) {
+/**
+ * DJSON Editor, a cross-browser JSON editor
+ * https://github.com/dousseaux/special_inputs
+ *
+ * Copyright 2017, Pedro Dousseau
+ * Licensed under the MIT license.
+ * Version: 0.1.0
+ * Date: 18 May 2017
+ */
+
+var DJSONeditor = function(textarea, div) {
+
+    $(div).html("");
+    $(div).append('<div class="djson-menu"></div>');
+    $(div).append('<div class="djson-editor-text"></div>');
+
+    var menu = $(div).find(".djson-menu");
+    var target_div = $(div).find(".djson-editor-text");
+
+    $(menu).html('<i class="fa fa-expand djson-expand"></i>')
+
+    // ########### PRIVATE FUNCTIONS ############
     var filterText =  function(){
         // Save position and replace rangy element with a code
         var savedSel = rangy.saveSelection();
@@ -18,7 +39,7 @@ function json_editor(textarea, target_div) {
         str = str.replace(/([\,\[][ ]*)(\"[^\"]+\")([ ]*[\,\]])/gi, function key_subs(x, p1, p2, p3) {
             return p1 + '<span class="djson-array">' + p2 + "</span>" + p3
         });
-        str = str.replace(/([\,\[][ ]*)(\"[^\"]+\")([ ]*[\,\]])/gi, function key_subs(x, p1, p2, p3) {
+        str = str.replace(/([\,\[][\s]*)(\"[^\"]+\")([\s]*[\,\]])/gi, function key_subs(x, p1, p2, p3) {
             return p1 + '<span class="djson-array">' + p2 + "</span>" + p3
         });
         str = str.replace(/\:/gi, function key_subs(x) {
@@ -36,8 +57,6 @@ function json_editor(textarea, target_div) {
         // Write html back to div
         $(target_div).html(str)
 
-        // Restore caret position using rangy element
-
         // Get non-html content and add to texarea
         $(target_div).html($(target_div).html().replace(/<br>/g, "|br|"));
         str = $(target_div).text().replace(/\|br\|/g, "\r\n");
@@ -45,9 +64,9 @@ function json_editor(textarea, target_div) {
         $(target_div).html($(target_div).html().replace(/\|br\|/g, "<br>"));
         $(textarea).text(str);
 
+        // Restore caret position using rangy element
         rangy.restoreSelection(savedSel);
     }
-
     var filterClipBoard = function(event){
         // Save div current selection
         var savedSel = rangy.saveSelection();
@@ -72,9 +91,57 @@ function json_editor(textarea, target_div) {
         // Filter text after being pasted
         setTimeout(filterText, 100);
     }
+    var expand = function(){
+        if($(div).attr('full-screen') === "true"){
+            $(div).attr('full-screen', "false")
+            $(div).removeClass("full-screen");
+            $(menu).find('.djson-expand').removeClass('fa-compress');
+            $(menu).find('.djson-expand').addClass('fa-expand');
+        }else{
+            $(div).attr('full-screen', "true")
+            $(div).addClass("full-screen");
+            $(menu).find('.djson-expand').removeClass('fa-expand');
+            $(menu).find('.djson-expand').addClass('fa-compress');
+        }
+    }
+    var addTab = function(event){
+        if(event.keyCode === 9) { // tab was pressed
+            // Save position and replace rangy element with a code and add tab spaces
+            var savedSel = rangy.saveSelection();
+            var rangyposition = $('.rangySelectionBoundary').prop('outerHTML');
+            $('.rangySelectionBoundary').replaceWith('&nbsp;&nbsp;&nbsp;&nbsp;|rangy|')
+            var str = $(target_div).html();
+            // Decode rangy position to html element
+            str = str.replace(/\|rangy\|/g, rangyposition);
+            $(target_div).html(str)
+            // Restore caret position using rangy element
+            rangy.restoreSelection(savedSel);
+            // Prevent to lose the focus
+            event.preventDefault();
+            // Filter changed text
+            filterText();
+        }
+    }
 
+    // ########### PUBLIC FUNCTIONS ############
+    this.setText = function(text){
+        text = text.replace(/\n/g, "<br>");
+        text = text.replace(/\t/g, "&nbsp&nbsp&nbsp&nbsp");
+        text = text.replace(/\s/g, "&nbsp");
+        $(target_div).html(text);
+        filterText();
+    };
+
+    // ############ SET EVENTS ############
     $(target_div).attr('contentEditable', true);
     $(target_div).on('input', filterText);
     $(target_div).on('paste', filterClipBoard);
+    $(menu).find('.djson-expand').click(expand);
+    $(target_div).keydown(addTab);
+
+
+    // INTIALIZE
+    $(div).addClass('djson-editor');
+    this.setText($(textarea).text());
     filterText();
 }
