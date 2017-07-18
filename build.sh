@@ -5,10 +5,10 @@
 #   npm install uglify-js -g
 
 # Configuration
-TARGETJS=dist/djson-editor-full.js
-TARGETCSS=dist/djson-editor-full.css
+TARGETJS=dist/dspecial-inputs-full.js
+TARGETCSS=dist/dspecial-inputs-full.css
 GIT="https://github.com/dousseaux/special_inputs"
-DATE="18 July 2017"
+DATE="July 18th 2017"
 
 # Make sure the target files exists and are empty
 touch $TARGETJS

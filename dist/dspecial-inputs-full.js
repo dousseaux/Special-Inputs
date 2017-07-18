@@ -2,7 +2,7 @@
  * This file is a minified merge of DJSON Editor, Rangy Core and Rangy Selection Save Restore
  * Author: Pedro Dousseau
  * https://github.com/dousseaux/special_inputs
- * 18 July 2017
+ * July 18th 2017
  * Version 0.1.4
  */
  
