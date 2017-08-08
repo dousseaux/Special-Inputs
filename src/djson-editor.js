@@ -4,7 +4,7 @@
  *
  * Copyright 2017, Pedro Dousseau
  * Licensed under the MIT license.
- * Version: 0.1.2
+ * Version: 0.1.3
  * Date: 18 July 2017"
  */
 
@@ -62,7 +62,7 @@ var DJSONeditor = function(textarea, div, theme) {
         str = str.replace(/[\[\]]/gi, function key_subs(x) {
             return '<span class="djson-bracket">' + x + "</span>"
         });
-        str = str.replace(/null|true/gi, function key_subs(x) {
+        str = str.replace(/null|true|false/gi, function key_subs(x) {
             return '<span class="djson-reserved">' + x + "</span>"
         });
         // #### END OF FILTERS ####
