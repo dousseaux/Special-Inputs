@@ -4,11 +4,16 @@
  *
  * Copyright 2017, Pedro Dousseau
  * Licensed under the MIT license.
- * Version: 0.1.0
+ * Version: 0.1.2
  * Date: 18 July 2017"
  */
 
-var DJSONeditor = function(textarea, div) {
+var DJSONeditor = function(textarea, div, theme) {
+
+    theme = (typeof theme !== 'undefined') ?  theme : "black";
+
+    $(div).addClass('djson-editor');
+    if(theme === "light") $(div).addClass('djson-editor-light');
 
     $(div).html("");
     $(div).append('<div class="djson-menu"></div>');
@@ -16,6 +21,7 @@ var DJSONeditor = function(textarea, div) {
 
     var menu = $(div).find(".djson-menu");
     var target_div = $(div).find(".djson-editor-text");
+    var self = this;
 
     $(menu).html('<i class="fa fa-expand djson-expand"></i>')
 
@@ -33,8 +39,9 @@ var DJSONeditor = function(textarea, div) {
         $(target_div).html($(target_div).html().replace(/<br>/g, "|br|"));
         // Get text without html elements
         var str = $(target_div).text();
+
         // #### APPLY FILTERS ####
-        str = str.replace(/(\"[a-z|]+\")(?:\:)/gi, function key_subs(x, p1) {
+        str = str.replace(/(\"[a-z_|]+\")(?:\:)/gi, function key_subs(x, p1) {
             return '<span class="djson-key">' + p1 + "</span>:"
         });
         str = str.replace(/(?:\:[\s\|]?)(\"[^\:]+\")(\,|(\|br\|)|\})/gi, function key_subs(x, p1, p2) {
@@ -55,7 +62,10 @@ var DJSONeditor = function(textarea, div) {
         str = str.replace(/[\[\]]/gi, function key_subs(x) {
             return '<span class="djson-bracket">' + x + "</span>"
         });
-        // #### END OF FILTERS ####window.clipboardData.getData("Text")
+        str = str.replace(/null|true/gi, function key_subs(x) {
+            return '<span class="djson-reserved">' + x + "</span>"
+        });
+        // #### END OF FILTERS ####
         // Restore line breaks from codes
         str = str.replace(/\|br\|/g, "<br>")
 
@@ -67,12 +77,15 @@ var DJSONeditor = function(textarea, div) {
         // Write html back to div
         $(target_div).html(str)
 
-        // Get non-html content and add to texarea
+        // Get non-html content and add to textarea
         $(target_div).html($(target_div).html().replace(/<br>/g, "|br|"));
+	$(target_div).html($(target_div).html().replace(/&nbsp;/g, "|bs|"));
         str = $(target_div).text().replace(/\|br\|/g, "\r\n");
-        // str = str.replace(/[ ]{4}/g, "\t");
+	str = str.replace(/\|bs\|/g, " ");	        
+	// str = str.replace(/[ ]{4}/g, "\t");
         $(target_div).html($(target_div).html().replace(/\|br\|/g, "<br>"));
-        $(textarea).text(str);
+	$(target_div).html($(target_div).html().replace(/\|bs\|/g, "&nbsp;"));
+        $(textarea).val(str);
 
         // Restore caret position using rangy element
         if (restores_sel) {
@@ -89,9 +102,10 @@ var DJSONeditor = function(textarea, div) {
         else if (event.originalEvent && event.originalEvent.clipboardData)
             text = event.originalEvent.clipboardData.getData("Text");
         // Edit text to be pasted
+        text = text.replace(/\r\n/g, "<br>");
         text = text.replace(/\n/g, "<br>");
-        text = text.replace(/\t/g, "&nbsp&nbsp&nbsp&nbsp");
-        text = text.replace(/\s/g, "&nbsp");
+        text = text.replace(/\t/g, "&nbsp;&nbsp;&nbsp;&nbsp;");
+        text = text.replace(/\s/g, "&nbsp;");
         // Recopy edited text to clipboard
         var $temp = $("<input>");
         $("body").append($temp);
@@ -137,9 +151,10 @@ var DJSONeditor = function(textarea, div) {
 
     // ########### PUBLIC FUNCTIONS ############
     this.setText = function(text) {
-        text = text.replace(/\n/g, "<br>");
-        text = text.replace(/\t/g, "&nbsp&nbsp&nbsp&nbsp");
-        text = text.replace(/\s/g, "&nbsp");
+        text = text.replace(/\r\n/g, "<br>");
+	text = text.replace(/\n/g, "<br>");
+        text = text.replace(/\t/g, "&nbsp;&nbsp;&nbsp;&nbsp;");
+        text = text.replace(/\s/g, "&nbsp;");
         $(target_div).html(text);
         filterText(false);
     };
@@ -150,10 +165,11 @@ var DJSONeditor = function(textarea, div) {
     $(target_div).on('paste', filterClipBoard);
     $(menu).find('.djson-expand').click(expand);
     $(target_div).keydown(addTab);
-
+    $(textarea).on('change', function(){
+	self.setText($(this).val());
+    });
 
     // INTIALIZE
-    $(div).addClass('djson-editor');
-    this.setText($(textarea).text());
+    this.setText($(textarea).val());
     filterText();
 }
